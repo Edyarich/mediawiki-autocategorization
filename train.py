@@ -21,7 +21,7 @@ from process_data import get_batch_vectorizer_and_dict, transform_category
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 WORKDIR = "temp_train"
-FULL_PIPELINE_FLG = False
+FULL_PIPELINE_FLG = True
 
 # Create working directories
 data_dir = os.path.join(WORKDIR, "data")
@@ -94,26 +94,25 @@ if os.listdir(model_dir):
 hier_new.save(model_dir)
 
 # Generate topic names
-if False:
-    generated_titles_lvl1 = generation_pipeline(hier_new.get_level(0))
-    generated_titles_lvl2 = generation_pipeline(hier_new.get_level(1))
-    generated_titles_lvl3 = generation_pipeline(hier_new.get_level(2))
+generated_titles_lvl1 = generation_pipeline(hier_new.get_level(0))
+generated_titles_lvl2 = generation_pipeline(hier_new.get_level(1))
+generated_titles_lvl3 = generation_pipeline(hier_new.get_level(2))
 
-    with open(os.path.join(model_dir, "titles_lvl1.pkl"), "wb") as fd:
-        pickle.dump(generated_titles_lvl1, fd)
+with open(os.path.join(model_dir, "titles_lvl1.pkl"), "wb") as fd:
+    pickle.dump(generated_titles_lvl1, fd)
 
-    with open(os.path.join(model_dir, "titles_lvl2.pkl"), "wb") as fd:
-        pickle.dump(generated_titles_lvl2, fd)
+with open(os.path.join(model_dir, "titles_lvl2.pkl"), "wb") as fd:
+    pickle.dump(generated_titles_lvl2, fd)
 
-    with open(os.path.join(model_dir, "titles_lvl3.pkl"), "wb") as fd:
-        pickle.dump(generated_titles_lvl3, fd)
+with open(os.path.join(model_dir, "titles_lvl3.pkl"), "wb") as fd:
+    pickle.dump(generated_titles_lvl3, fd)
 
-    # Predict categories and topics
-    prediction_path = os.path.join(WORKDIR, "prediction.csv")
-    df_pred = predict(hier_new, batch_vectorizer, model_dir, df, prediction_path)
+# Predict categories and topics
+prediction_path = os.path.join(WORKDIR, "prediction.csv")
+df_pred = predict(hier_new, batch_vectorizer, model_dir, df, prediction_path)
 
-    for _, row in df_pred.sample(5).iterrows():
-        print(row["doc_id"])
-        print(row["categories"])
-        print(row["generated_topics"])
-        print()
+for _, row in df_pred.sample(5).iterrows():
+    print(row["doc_id"])
+    print(row["categories"])
+    print(row["generated_topics"])
+    print()

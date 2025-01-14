@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 WORKDIR = "temp_test"
 MODEL_PATH = "artm/models/hier_modified"
-FULL_PIPELINE_FLG = False
+FULL_PIPELINE_FLG = True
 
 # Create working directories
 os.makedirs(WORKDIR, exist_ok=True)
@@ -70,3 +70,4 @@ for _, row in df_pred.sample(5).iterrows():
     print(row["categories"])
     print(row["generated_topics"])
     print()
+
